@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News App </title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            height: auto;
+            background: #01000f;
+            display: flex;
+           justify-content:space-between;
+           color: rgb(0, 0, 0);
+        }
+        .headlines{
+            width: 30%;
+            background: #00350b;
+        }
+        .headlines h1{
+            font-size: 2em;
+            color: white;
+            margin: 70px 0 20px 10px;
+            text-align: center;
+        }
+        #headline{
+            padding: 20px;
+            background: #ffffff;
+            margin: 20px;
+            border-radius: 15px;
+        }
+        .newsapp{
+            width: 70%;
+            height: auto;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            
+        }
+        nav{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1% 7% 2% 1%;
+            background: #00350b;
+            color: black;
+        }
+        .title{
+            background: linear-gradient(rgb(255, 241, 194), rgb(248, 255, 143));
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: white;
+            font-size: 5em;
+        }
+        nav input{
+            width: 300px;
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+        }
+        nav button{
+            width: 70px;
+            padding: 15px;
+            margin-top: 30px;
+            border-radius: 10px;
+            border: none;
+            background: rgb(68, 114, 0);
+            color: white;
+        }
+        #body{
+            width: 100%;
+            padding: 180px;
+            max-height: 100vh;
+            overflow: auto;
+            border-radius: 10px 0 0 0;
+
+        }
+        h1{
+            margin-bottom: 15px;
+            font-size: 30px;
+        }
+
+        .img{
+            width: 620px;
+        
+            margin: 0 auto;
+
+        }
+        .img img{
+            border-radius: 5px;
+            width: 520px;
+        }
+        #author{
+            padding: 10px;
+            background: #ffee00a9;
+            width: 150px;
+            border-radius: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        #content{
+            margin: 30px 0;
+            font-size: 25px;
+        }
+        hr{
+            margin: 30px 0;
+        }
+        #description{
+            padding: 20px;
+            background: #ff000011;
+            border-radius: 10px;
+            text-align: justify;
+        }
+        @media (max-width: 992px) {
+            body{
+         flex-direction: column;
+        }
+    .headlines {
+        width: 100%;
+    }
+    .newsapp {
+        width: 100%;
+    }
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+    nav input {
+        width: 100%;
+        margin: 10px 0;
+    }
+    nav button {
+        width: 100%;
+    }
+    .title {
+        font-size: 3em;
+    }
+    .img img{
+            width: 320px;
+        }
+}
+@media (max-width: 768px) {
+    .title {
+        font-size: 2.5em;
+    }
+    nav {
+        padding: 1% 2%;
+    }
+    nav input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    nav button {
+        width: 100%;
+        padding: 10px;
+    }
+    #body {
+        padding: 20px;
+    }
+    .img {
+        width: 100%;
+    }
+    #content {
+        font-size: 18px;
+    }
+}
+    </style>
+</head>
+<body>
+   
+    <div class="headlines">
+    <h1 id="headlineTitele">HeadLines In BBC</h1>
+    <div id="headlines1">
+        
+
+    </div>
+    </div>
+    <div class="newsapp">
+
+        <nav>
+            <h2 class="title">Max News</h2>
+            <form action="">
+            <input type="text" name="search" id="search_input"  placeholder="search">
+            <button type="submit" id="btn">Search</button>
+            </form>
+        </nav>
+
+<section id="body">
+   
+    <div id="news">
+      
+    </div>
+</section>
+</div>
+
+
+    <script>
+           let headlinerequest = new XMLHttpRequest();
+
+           var url1 = 'https://newsapi.org/v2/top-headlines?' +
+                      'sources=bbc-news&' +
+                      'apiKey=cda08143005342469e2074195b739454';
+                    headlinerequest.open('GET', url1, true)
+                    headlinerequest.onreadystatechange = function(){
+                        if(headlinerequest.readyState === 4 && headlinerequest.status === 200){
+                            let head = JSON.parse(headlinerequest.responseText);
+                            console.log(head.articles)
+                            let headlines = head.articles;
+                            
+                            let sideheadline = "";
+                            headlines.forEach(headline=>{
+                                console.log(headline.content)
+                                sideheadline+= `
+                                <p id="headline">${headline.title}</p>
+                                `
+                              
+                            })
+                         document.getElementById("headlines1").innerHTML = sideheadline
+                            
+                        }
+                    }
+                    headlinerequest.send();
+
+
+     function fetchquery(query){
+       let today = new Date();
+        let dd = String(today.getDate()-1).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0'); 
+        let yyyy = today.getFullYear();
+        let date = `${yyyy}-${mm}-${dd}`;
+   
+   
+
+
+        let xhr = new XMLHttpRequest();
+        const api_key =  "cda08143005342469e2074195b739454";
+        var url = 'https://newsapi.org/v2/everything?' +
+          `q=${query}}&` +
+          `from=${date}&` +
+          'sortBy=popularity&' +
+          'apiKey=cda08143005342469e2074195b739454';
+
+          xhr.open('GET', url, true);
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState === 4 && xhr.status === 200){
+                let details = JSON.parse(xhr.responseText);
+                let articles = details.articles;
+                console.log(articles)
+                let full = " ";
+                articles.forEach(article => {
+                       full+=`
+                         <h1 id="title">${article.title}</h1>
+                         <div class="img">
+                         <img src="${article.urlToImage}" alt="img"  id="news_img" >
+                         </div>
+                         <p id="author">${article.source.name}</p>
+                         <p id="content">${article.content}  <a href="${article.url}">Read More</a></p>
+                        
+                         <p id="description">${article.description}</p><hr>
+                       `
+                });
+                document.getElementById("news").innerHTML = full;
+
+
+            }
+        }
+        xhr.send();
+    }
+
+    window.onload =fetchquery("india");
+
+
+ document.getElementById("btn").onclick = function btn_change(event){
+    event.preventDefault();  
+    let search_input = document.getElementById("search_input").value;
+
+      query = search_input ? search_input : "india" ;
+      
+      fetchquery(query)
+
+
+  }
+   
+
+       
+      
+    </script>
+    
+</body>
+</html>
